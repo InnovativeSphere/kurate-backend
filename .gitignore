@@ -1,0 +1,28 @@
+# Node
+node_modules/
+dist/
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma migrations (commit these if your team shares the DB schema)
+# prisma/migrations/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Test coverage
+coverage/

@@ -1,0 +1,21 @@
+📦 Kurate Backend — Complete Documentation & Files
+You’ve built a full, production‑ready gadget marketplace backend. Below is the README.md for the repository and a .gitignore file tailored to your stack.
+
+🧾 What we built (end‑to‑end)
+Authentication — register, login, logout, token refresh, JWT stored in httpOnly cookies. Role‑based access (BUYER, SELLER, ADMIN).
+
+Users — CRUD, soft‑delete, theme selection, admin‑only role management, platform user stats.
+
+Categories — public list, admin CRUD, soft‑delete/restore, hard‑delete blocked when products exist.
+
+Sellers — shop creation (one per user), verification workflow (admin), admin dashboard, cascade hard‑delete.
+
+Products — full CRUD with JSON specs, multiple images, condition/stock, search & filter (category, price range, condition, text). Image management with primary image enforcement. Unverified sellers cannot list.
+
+Product views — automatically tracked on detail view.
+
+Analytics — seller dashboard shows each product’s views (total, weekly, monthly). Admin overview with daily charts, top‑5 products, platform totals.
+
+Upload — Cloudinary integration, POST /upload/image returns a secure URL.
+
+Security — Helmet, rate limiting, CORS, global validation pipe, cookie‑based auth.

@@ -1,0 +1,177 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  phone         String?
+  role          UserRole @default(BUYER)
+  theme         String   @default("light") // "light", "dark", "sepia"
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  deleted_at    DateTime?
+
+  seller         Seller?
+  product_views  ProductView[]
+  wishlist_items WishlistItem[]
+
+  @@map("users")
+  @@index([email])
+  @@index([role])
+  @@index([deleted_at])
+}
+
+enum UserRole {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+model Seller {
+  id                       String             @id @default(uuid())
+  user_id                  String?            @unique
+  shop_name                String
+  shop_description         String?
+  location_text            String?
+  whatsapp_number          String
+  verification_status      VerificationStatus @default(PENDING)
+  business_certificate_url String?
+  created_at               DateTime           @default(now())
+  updated_at               DateTime           @updatedAt
+  deleted_at               DateTime?
+
+  user     User?     @relation(fields: [user_id], references: [id])
+  products Product[]
+
+  @@map("sellers")
+  @@index([verification_status])
+  @@index([user_id])
+  @@index([deleted_at])
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  icon_url    String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  deleted_at  DateTime?
+
+  products Product[]
+
+  @@map("categories")
+  @@index([name])
+  @@index([deleted_at])
+}
+
+model Product {
+  id             String           @id @default(uuid())
+  name           String
+  description    String?
+  price_in_cents Int              @default(0)
+  condition      ProductCondition @default(NEW)
+  stock_status   StockStatus      @default(IN_STOCK)
+  specs          Json
+  seller_id      String
+  category_id    String
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  deleted_at     DateTime?
+
+  seller         Seller         @relation(fields: [seller_id], references: [id])
+  category       Category       @relation(fields: [category_id], references: [id])
+  product_images ProductImage[]
+  product_views  ProductView[]
+  wishlist_items WishlistItem[]
+
+  @@map("products")
+  @@index([name])
+  @@index([seller_id])
+  @@index([category_id])
+  @@index([condition])
+  @@index([stock_status])
+  @@index([deleted_at])
+}
+
+enum ProductCondition {
+  NEW
+  USED
+  REFURBISHED
+}
+
+enum StockStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  LIMITED
+}
+
+model ProductImage {
+  id            String  @id @default(uuid())
+  product_id    String
+  image_url     String
+  alt_text      String?
+  display_order Int
+  is_primary    Boolean @default(false)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  deleted_at    DateTime?
+
+  product Product @relation(fields: [product_id], references: [id])
+
+  @@map("product_images")
+  @@index([product_id])
+  @@index([display_order])
+  @@index([deleted_at])
+}
+
+model ProductView {
+  id         String   @id @default(uuid())
+  product_id String
+  user_id    String?
+  ip_address String?
+  user_agent String?
+  viewed_at  DateTime @default(now())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  product Product  @relation(fields: [product_id], references: [id])
+  user    User?    @relation(fields: [user_id], references: [id])
+
+  @@map("product_views")
+  @@index([product_id])
+  @@index([user_id])
+  @@index([viewed_at])
+  @@index([created_at])
+}
+
+model WishlistItem {
+  id         String   @id @default(uuid())
+  user_id    String
+  product_id String
+  added_at   DateTime @default(now())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, product_id])
+  @@map("wishlist_items")
+  @@index([user_id])
+  @@index([product_id])
+}
