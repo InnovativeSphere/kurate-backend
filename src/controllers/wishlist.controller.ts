@@ -21,7 +21,7 @@ import { RolesGuard } from 'src/services/auth/guards/roles.guard';
 import { Roles } from 'src/services/auth/decorators/roles.decorator';
 import { UserRole } from '@prisma/client';
 import { AddWishlistItemDto } from 'src/dto/wishlist.dto';
-import { WishlistService } from 'src/Services/wishlist.service';
+import { WishlistService } from 'src/services/wishlist.service';
 
 @ApiTags('Wishlist')
 @ApiBearerAuth()
