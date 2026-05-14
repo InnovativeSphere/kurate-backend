@@ -5,7 +5,7 @@ import { AuthService } from 'src/services/auth/auth.service';
 import { AuthController } from 'src/controllers/auth.controller';   // NEW
 import { JwtAuthGuard } from 'src/services/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/services/auth/guards/roles.guard';
-import { UserModule } from 'src/Modules/user.module';   // adjust path to your UserModule
+import { UserModule } from 'src/modules/user.module';
 
 @Module({
   imports: [

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AnalyticsController } from 'src/controllers/analytics.controller';
 
-import { SellerModule } from 'src/Modules/seller.module';   // for SellerService
+import { SellerModule } from 'src/modules/seller.module';
 import { AnalyticsService } from 'src/services/analytics/analytics.service';
 
 @Module({

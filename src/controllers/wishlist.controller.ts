@@ -15,13 +15,13 @@ import {
   ApiBearerAuth,
   ApiOperation,
 } from '@nestjs/swagger';
-import { WishlistService } from 'src/Services/wishlist.service';
-import { AddWishlistItemDto } from 'src/dto/wishlist.dto';
-import { CurrentUser, JwtUserPayload } from 'src/Services/auth/decorators/current-user.decorator';
-import { JwtAuthGuard } from 'src/Services/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/Services/auth/guards/roles.guard';
-import { Roles } from 'src/Services/auth/decorators/roles.decorator';
+import { CurrentUser, JwtUserPayload } from 'src/services/auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from 'src/services/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/services/auth/guards/roles.guard';
+import { Roles } from 'src/services/auth/decorators/roles.decorator';
 import { UserRole } from '@prisma/client';
+import { AddWishlistItemDto } from 'src/dto/wishlist.dto';
+import { WishlistService } from 'src/Services/wishlist.service';
 
 @ApiTags('Wishlist')
 @ApiBearerAuth()

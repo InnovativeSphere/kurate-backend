@@ -4,7 +4,7 @@ import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./modules/auth.module";
 import { UserModule } from "./modules/user.module";
 import { PrismaModule } from "./prisma/prisma.module";
-import { CategoryModule } from "./Modules/category.module";
+import { CategoryModule } from "./modules/category.module";
 import { SellerModule } from "./modules/seller.module";
 import { ProductModule } from "./modules/product.module";
 import { AnalyticsModule } from "./modules/analytics.module";

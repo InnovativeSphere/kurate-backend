@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { WishlistService } from 'src/Services/wishlist.service';
-import { WishlistController } from 'src/Controllers/wishlist.controller';
+import { WishlistController } from 'src/controllers/wishlist.controller';
+import { WishlistService } from 'src/services/wishlist.service';
 
 @Module({
   imports: [
