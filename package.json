@@ -29,11 +29,17 @@
     "pg": "^8.20.0",
     "pg-hstore": "^2.3.4",
     "prisma": "^6.19.3",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+
+    "@nestjs/cli": "^11.0.21",
+    "typescript": "~5.7.3",
+    "ts-node": "^10.9.2",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^25.6.0",
+    "@types/passport-local": "^1.0.38"
   },
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -45,12 +51,5 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
-  "devDependencies": {
-    "@nestjs/cli": "^11.0.21",
-    "@types/multer": "^2.1.0",
-    "@types/node": "^25.6.0",
-    "@types/passport-local": "^1.0.38",
-    "ts-node": "^10.9.2",
-    "typescript": "~5.7.3"
-  }
+  "devDependencies": {}
 }
