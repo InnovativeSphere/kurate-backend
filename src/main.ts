@@ -1,3 +1,4 @@
+// src/main.ts
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -23,12 +24,13 @@ async function bootstrap() {
     }),
   );
 
-  // CORS — allow frontend (Next.js on 3000) and any other dev origins
+  // CORS — allow frontend (Next.js on 3000) and any other dev origins + production
   app.enableCors({
     origin: [
-      'http://localhost:3000',  // Next.js default
-      'http://localhost:3001',  // alternative (keep if needed)
-      'http://localhost:3002',  // alternative
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'https://kurate-frontend.vercel.app',   // ← your live frontend
     ],
     credentials: true,
   });
@@ -56,7 +58,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = process.env.PORT || 5000;  
+  const port = process.env.PORT || 5000;
   await app.listen(port);
   console.log(`🚀 Kurate API running on http://localhost:${port}`);
 }
