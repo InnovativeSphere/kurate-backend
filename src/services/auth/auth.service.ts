@@ -18,19 +18,18 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  // ✅ Production sends "none" (cross‑origin OK), dev sends "lax"
   private readonly COOKIE_OPTIONS = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
+    sameSite: (process.env.NODE_ENV === "production" ? "none" : "lax") as "none" | "lax",
     path: "/",
   };
 
-  // ✅ Changed to 24 hours
   private generateAccessToken(userId: string, role: string): string {
     return this.jwtService.sign({ sub: userId, role }, { expiresIn: "24h" });
   }
 
-  // Unchanged – refresh token stays at 7 days
   private generateRefreshToken(userId: string): string {
     return this.jwtService.sign({ sub: userId }, { expiresIn: "7d" });
   }
@@ -42,7 +41,7 @@ export class AuthService {
   ) {
     response.cookie("access_token", accessToken, {
       ...this.COOKIE_OPTIONS,
-      maxAge: 24 * 60 * 60 * 1000,   // ✅ 24 hours (matches JWT)
+      maxAge: 24 * 60 * 60 * 1000,   // 24 hours
     });
     response.cookie("refresh_token", refreshToken, {
       ...this.COOKIE_OPTIONS,
