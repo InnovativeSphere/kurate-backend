@@ -58,6 +58,7 @@ export class ProductService {
       min_price?: number;
       max_price?: number;
       search?: string;
+      seller_id?: string; // ✅ new filter
       page?: number;
       limit?: number;
     } = {},
@@ -90,6 +91,9 @@ export class ProductService {
         { name: { contains: filters.search, mode: "insensitive" } },
         { description: { contains: filters.search, mode: "insensitive" } },
       ];
+    }
+    if (filters.seller_id) {
+      where.seller_id = filters.seller_id; // ✅ apply seller filter
     }
 
     const [products, total] = await Promise.all([

@@ -71,6 +71,7 @@ export class ProductController {
     @Query("min_price") min_price?: number,
     @Query("max_price") max_price?: number,
     @Query("search") search?: string,
+    @Query("seller_id") seller_id?: string, // 👈 new
   ) {
     return this.productService.findAll({
       page,
@@ -80,6 +81,7 @@ export class ProductController {
       min_price,
       max_price,
       search,
+      seller_id, // pass it
     });
   }
 
@@ -145,7 +147,7 @@ export class ProductController {
       properties: {
         data: {
           type: "string",
-          description: 'JSON string of CreateProductDto (without images)',
+          description: "JSON string of CreateProductDto (without images)",
         },
         images: {
           type: "array",
@@ -154,7 +156,7 @@ export class ProductController {
         },
         image_metadata: {
           type: "string",
-          description: 'JSON array of image metadata matching images order',
+          description: "JSON array of image metadata matching images order",
         },
       },
       required: ["data", "images"],
@@ -182,7 +184,10 @@ export class ProductController {
     let imageMetaArray: any[] = [];
     if (metadata && files && files.length > 0) {
       imageMetaArray = JSON.parse(metadata);
-      if (!Array.isArray(imageMetaArray) || imageMetaArray.length !== files.length) {
+      if (
+        !Array.isArray(imageMetaArray) ||
+        imageMetaArray.length !== files.length
+      ) {
         throw new NotFoundException(
           "image_metadata must be an array with the same length as images files",
         );
@@ -196,8 +201,10 @@ export class ProductController {
             buffer: file.buffer,
             mimetype: file.mimetype,
             alt_text: meta.alt_text,
-            display_order: meta.display_order !== undefined ? meta.display_order : index + 1,
-            is_primary: meta.is_primary !== undefined ? meta.is_primary : index === 0,
+            display_order:
+              meta.display_order !== undefined ? meta.display_order : index + 1,
+            is_primary:
+              meta.is_primary !== undefined ? meta.is_primary : index === 0,
           };
         })
       : [];
@@ -216,7 +223,11 @@ export class ProductController {
     schema: {
       type: "object",
       properties: {
-        image: { type: "string", format: "binary", description: "Image file (jpeg, png, webp)" },
+        image: {
+          type: "string",
+          format: "binary",
+          description: "Image file (jpeg, png, webp)",
+        },
         image_url: { type: "string", description: "Direct image URL" },
         alt_text: { type: "string" },
         display_order: { type: "integer" },
@@ -248,7 +259,9 @@ export class ProductController {
       dto.image_url = url;
     }
     if (!dto.image_url || dto.image_url.trim() === "") {
-      throw new BadRequestException("Either an image file or a non‑empty image_url is required");
+      throw new BadRequestException(
+        "Either an image file or a non‑empty image_url is required",
+      );
     }
     return this.productService.addImage(productId, dto, user.id, false);
   }
